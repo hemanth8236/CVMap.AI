@@ -93,11 +93,3 @@ CVMap.AI/
 - Ensure the `static/uploads` directory exists and is writable for PDF generation and downloads.
 - The application is designed for local use and educational/demo purposes.
 
----
-
-## License
-
-This project is licensed under the MIT License.  
-See the [LICENSE](LICENSE) file for details.
-
----
