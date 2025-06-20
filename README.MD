@@ -6,6 +6,8 @@ CVMap.AI is a Flask-based web application for:
 - Scoring resumes on various parameters
 - Generating resume PDFs from user input
 
+![alt text](<Screenshot 2025-06-20 193043.jpg>) ![alt text](<Screenshot 2025-06-20 193125.jpg>) ![alt text](<Screenshot 2025-06-20 193149.jpg>) ![alt text](<Screenshot 2025-06-20 193221.jpg>)
+
 ---
 
 ## Features
