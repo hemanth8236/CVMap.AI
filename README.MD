@@ -1,12 +1,16 @@
 # CVMap.AI
 
-CVMap.AI is a web application built with Flask that helps users generate and score resumes. It can extract skills from uploaded PDF resumes, generate subjective questions based on those skills, score resumes on various parameters, and create new resume PDFs from user input.
+CVMap.AI is a Flask-based web application for:
+- Extracting skills from uploaded PDF resumes
+- Generating subjective questions based on those skills
+- Scoring resumes on various parameters
+- Generating resume PDFs from user input
 
 ---
 
 ## Features
 
-- **Resume Skill Extraction:** Upload a PDF resume and extract key skills automatically.
+- **Skill Extraction:** Upload a PDF resume and extract key skills automatically.
 - **Subjective Question Generation:** Generate a list of subjective questions tailored to the extracted skills.
 - **Resume Scoring:** Score resumes based on the presence of important sections like Name, Email, LinkedIn, Experience, Education, Skills, Internships, Achievements, and Projects.
 - **Resume PDF Generation:** Fill out a form to generate a professional resume PDF using customizable templates.
@@ -17,7 +21,6 @@ CVMap.AI is a web application built with Flask that helps users generate and sco
 
 ### 1. Clone the Repository
 
-If you are using git:
 ```sh
 git clone <repository-url>
 cd CVMap.AI
@@ -27,7 +30,7 @@ cd CVMap.AI
 
 Make sure you have Python 3.7+ installed. Then run:
 ```sh
-pip install flask PyPDF2 pdfkit nltk
+pip install flask PyPDF2 pdfkit numpy nltk
 ```
 
 ### 3. Install wkhtmltopdf
@@ -61,7 +64,7 @@ Open your browser and go to:
 ```
 CVMap.AI/
 │
-├── app.py                # Main Flask application
+├── app.py                # Main Flask application (with comments)
 ├── subjective.py         # Subjective question generator logic
 ├── templates/            # HTML templates for the web interface
 ├── static/               # Static files (CSS, JS, uploads, etc.)
@@ -94,3 +97,5 @@ CVMap.AI/
 
 This project is licensed under the MIT License.  
 See the [LICENSE](LICENSE) file for details.
+
+---

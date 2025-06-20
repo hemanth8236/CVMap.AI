@@ -10,24 +10,30 @@ import base64
 app = Flask(__name__)
 app.secret_key = 'aica2'
 
-# Specify the path to wkhtmltopdf
+# Path to wkhtmltopdf executable for PDF generation
 path_to_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'  
 config = pdfkit.configuration(wkhtmltopdf=path_to_wkhtmltopdf)
 
 @app.route('/')
 def index():
+    """Render the home page."""
     return render_template('front.html')
 
 @app.route('/predict')
 def index1():
+    """Render the skill/question prediction page."""
     return render_template('predict.html')
 
 @app.route('/scorer')
 def index2():
+    """Render the resume scoring page."""
     return render_template('scorer.html')
 
 @app.route('/test_generate', methods=["POST"])
 def test_generate():
+    """
+    Handle PDF upload, extract skills, and generate subjective questions.
+    """
     if 'pdf_file' not in request.files:
         flash("No file part")
         return redirect(url_for('index1'))
@@ -38,17 +44,19 @@ def test_generate():
         return redirect(url_for('index1'))
     
     if pdf_file:
+        # Read PDF and extract text
         pdf = PdfReader(pdf_file)
         text = ""
         for page in pdf.pages:
             text += page.extract_text()
     
-    # Extract skills and print them for debugging
+    # Extract skills from resume text
     skills = extract_skills(text)
     valid_keywords = ["Python", "programming", "machine learning", "data analysis", "NLP", "OOPs", "Java"]
-    no_of_questions = 150 
+    no_of_questions = 150  # Number of questions to generate
 
     try:
+        # Generate subjective questions based on skills
         subjective_generator = SubjectiveTest(skills, no_of_questions, valid_keywords)
         question_list = subjective_generator.generate_questions()
         return render_template('predict.html', cresults=question_list)
@@ -58,13 +66,17 @@ def test_generate():
 
 @app.route("/generate")
 def gen():
+    """Render the resume generation form."""
     return render_template('generate.html')
-
 
 @app.route("/generatepdf", methods=['POST'])
 def generatepdf():
+    """
+    Generate a PDF resume from form data and return it for download.
+    """
     if request.method == "POST":
         form_data = request.form
+        # Extract form fields
         name = form_data['Name']
         email = form_data['Email']
         linkedin = form_data['LinkedIn']
@@ -74,7 +86,6 @@ def generatepdf():
         achievements = form_data['Achievements'].splitlines()
         projects = form_data['projects'].splitlines()
         description = form_data['Description']
-
         selected_template = form_data['template']
 
         # Handle photo upload
@@ -94,7 +105,7 @@ def generatepdf():
                     education_entries.append({})
                 education_entries[index][field_name] = form_data[key]
 
-        # Render the template with data passed to it
+        # Render HTML and generate PDF
         html_content = render_template(
             selected_template,
             name=name,
@@ -123,9 +134,11 @@ def generatepdf():
             return redirect(url_for('gen'))
     return render_template('cantdownload.html')
 
-
 @app.route("/score_resume", methods=["GET", "POST"])
 def score_resume():
+    """
+    Handle PDF upload and score the resume based on extracted information.
+    """
     if request.method == "POST":
         if 'pdf_file' not in request.files:
             flash('No file part')
@@ -199,7 +212,7 @@ def extract_skills(text):
     programming_match = re.search(r"Programming Languages ?:?\s*([A-Za-z+, ]+)", text, re.IGNORECASE)
     frameworks_match = re.search(r"Frameworks/Libraries ?:?\s*([A-Za-z., ]+)", text, re.IGNORECASE)
     databases_match = re.search(r"Databases ?:?\s*([A-Za-z, ]+)", text, re.IGNORECASE)
-    skills_match = re.search(r"(Skills|Expertise)\s*[-•*]?\s*([A-Za-z0-9+.,\s]+?)(?=\n*Experience|Achievements|$)", text, re.IGNORECASE)
+    skills_match = re.search(r"(Skills|Expertise)\s*[-•*]?\s*([A-ZaZ0-9+.,\s]+?)(?=\n*Experience|Achievements|$)", text, re.IGNORECASE)
     
     skills = []
     
@@ -229,7 +242,7 @@ def extract_achievements(text):
 
 def extract_projects(text):
     """Extracts project information from the resume text, assuming a list format."""
-    match = re.search(r"Projects(?:\n|:| -)\s*(?:•\s*)?([A-Za-z, 0-9]+(?:\n• [A-Za-z, 0-9]+)*)", text, re.IGNORECASE)
+    match = re.search(r"Projects(?:\n|:| -)\s*(?:•\s*)?([A-Za-z, 0-9]+(?:\n• [A-ZaZ0-9]+)*)", text, re.IGNORECASE)
     return match.group(1).strip().split('\n• ') if match else ["Projects not found"]
 
 def calculate_score(resume_data):
