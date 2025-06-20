@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume - {{ name }}</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            margin: 20px;
+        }
+
+        h1 {
+            font-size: 45px;
+            color: #222;
+        }
+
+        h2 {
+            font-size: 24px;
+            color: #333;
+            margin-top: 20px;
+        }
+
+        p {
+            font-size: 18px;
+            color: #111;
+        }
+
+        .divider {
+            height: 1px;
+            background-color: #555;
+            margin: 20px 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>{{ name }}</h1>
+        {% if photo_data %}
+        <img src="data:image/jpeg;base64,{{ photo_data }}" width="150" height="150" alt="Profile Photo"
+            style="margin-left:20px; margin-top:-60px; float:right;">
+        {% endif %}
+        <p><strong>Email: </strong> {{ email }}</p>
+        <p><strong>LinkedIn: </strong> {{ linkedin }}</p>
+        <p><strong>Experience: </strong> {{ experience }} years</p>
+        <p>{{ description }}</p>
+        <div class="divider"></div>
+
+        <h2>Education</h2>
+        <div>
+            {% for entry in education_entries %}
+            <p><strong>{{ entry.degree }} </strong></p>
+            <p>{{ entry.university }} - GPA - {{ entry.cgpa }}</p>
+            {% endfor %}
+        </div>
+
+        <div class="divider"></div>
+
+        <h2>Projects</h2>
+        <div>
+            {% for project in projects %}
+            <p>• {{ project }}</p>
+            {% endfor %}
+        </div>
+        <div class="divider"></div>
+
+        <h2>Skills</h2>
+        <div>
+            {% for skill in skills %}
+            <p>• {{ skill }}</p>
+            {% endfor %}
+        </div>
+        <div class="divider"></div>
+
+        {% if internship %}
+        <h2>Experience</h2>
+        <div>
+            {% for intern in internship %}
+            <p>• {{ intern }}</p>
+            {% endfor %}
+        </div>
+        <div class="divider"></div>
+        {% endif %}
+        <h2>Achievements</h2>
+        <div>
+            {% for achievement in achievements %}
+            <p>• {{ achievement }}</p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+
+</html>

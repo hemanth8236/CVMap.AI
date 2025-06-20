@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Score</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/front.css') }}"> <!-- Link to your CSS file -->
+</head>
+<body>
+    <video id="background-video" autoplay muted loop>
+        <source src="static/assets/video1.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    <div class="result-container">
+        <section id="resume_score" class="scoring">
+    <form action="/score_resume" method="POST" enctype="multipart/form-data" class="scoring-form">
+      <div class="scoring-content">
+        <h2 class="scoring-heading">CVScore.AI</h2>
+        <p class="scoring-text">CVScore.AI is an AI-powered tool that assesses and scores your resume.</p>
+        <input type="file" name="pdf_file" accept="application/pdf" required>
+        <button type="submit" class="scoring-button">Score Your Resume</button>
+      </div>
+      <div class="scoring-image">
+        <img src="static/assets/score.png" alt="CVScore.Ai Image">
+      </div>
+    </form>
+  </section>
+    </div>
+</body>
+</html>

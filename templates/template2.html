@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume - {{ name }}</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            width: 100%;
+            height: 100%;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1000px;
+            height: 1330px;
+            margin: 0px auto;
+            background-color: #fff;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar {
+            width: 40%;
+            background-color: #4b4a4a;
+            color: #fff;
+            padding-left: 20px;
+            padding: 15px;
+            margin: 0;
+            height: 1330px;
+            box-sizing: border-box;
+            border-radius: 15px;
+        }
+
+        .sidebar img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            margin-left: 80px;
+        }
+
+        .main-content {
+            width: 60%;
+            margin-top: -1350px;
+            margin-left: 380px;
+            padding: 15px;
+            height: 1330px;
+            box-sizing: border-box;
+        }
+
+        .sidebar h2 {
+            font-size: 26px;
+            color: #ecf0f1;
+            margin-top: 0;
+        }
+
+        .main-content h2 {
+            font-size: 26px;
+            color: #333;
+            margin-top: 0;
+        }
+
+        .sidebar .section,
+        .main-content .section {
+            margin-bottom: 10px;
+        }
+
+        .main-content h1 {
+            font-size: 45px;
+            color: #333;
+        }
+
+        .main-content h3 {
+            font-size: 22px;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .divider {
+            height: 1px;
+            background-color: #ccc;
+            margin: 15px 0;
+        }
+
+        .white-divider {
+            height: 1px;
+            background-color: white;
+            margin: 15px 0;
+        }
+
+        .section p {
+            margin: 0;
+            font-size: 18px;
+            line-height: 1.4;
+        }
+
+        .contact-info p,
+        .education p,
+        .certificates p,
+        .achievements p,
+        .expertise p {
+            color: #ecf0f1;
+        }
+
+        .projects p,
+        .internships p {
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            {% if photo_data %}
+            <img src="data:image/jpeg;base64,{{ photo_data }}" alt="Profile Photo">
+            {% endif %}
+            <h2>Contact</h2>
+            <div class="section contact-info">
+                <p><strong>Email: </strong></p>
+                <p>{{ email }}</p>
+                <p><strong>LinkedIn</strong></p>
+                <p>{{ linkedin }}</p>
+            </div>
+
+            <div class="white-divider"></div>
+
+            <h2>Education</h2>
+            <div class="section education">
+                {% for entry in education_entries %}
+                <p><strong>{{ entry.degree }}</strong></p>
+                <p>{{ entry.university }}</p>
+                <p>GPA - {{ entry.cgpa }}</p>
+                {% endfor %}
+            </div>
+
+            <div class="white-divider"></div>
+
+            <h2>Expertise</h2>
+            <div class="section expertise">
+                {% for skill in skills %}
+                <p>• {{ skill }}</p>
+                {% endfor %}
+            </div>
+
+            <div class="white-divider"></div>
+            <h2>Achievements</h2>
+            <div class="section achievements">
+                {% for achievement in achievements %}
+                <p>• {{ achievement }}</p>
+                {% endfor %}
+            </div>
+
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <h1>{{ name }}</h1>
+            <div class="section">
+                <h3>{{ experience }} years of experience</h3>
+                <p>{{ description }}</p>
+            </div>
+
+            {% if internship %}
+            <div class="divider"></div>
+            <h2>Experience</h2>
+            <div>
+                {% for intern in internship %}
+                <p>• {{ intern }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+
+            <div class="divider"></div>
+            <h2>Projects</h2>
+            <div class="section projects">
+                {% for project in projects %}
+                <p>• {{ project }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

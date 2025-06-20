@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prediction Page</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      color: #fff;
+      overflow: visible;
+      /* Change to visible */
+    }
+
+    #background-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      object-fit: cover;
+      opacity: 0.6;
+    }
+
+    #content-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 80px;
+      margin: 50px auto;
+      border-radius: 30px;
+      background-color: rgba(26, 26, 26, 0.8);
+      width: 40%;
+    }
+
+    .image {
+      width: 300px;
+      height: 300px;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+    }
+
+    #submit-btn-container {
+      text-align: center;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    #submit-btn {
+      border-radius: 15px;
+      background-color: aqua;
+      width: 20%;
+      color: #000;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+      font-weight: bold;
+      font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    }
+
+    #submit-btn:hover {
+      background-color: #000;
+      color: aqua;
+    }
+
+    #chat-section {
+      margin-top: 20px;
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 20px;
+      border-radius: 10px;
+      width: 50%;
+      margin: 0 auto;
+      color: white;
+      font-weight: bold;
+      height: 600px;
+      overflow-y: scroll;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    #chat-section::-webkit-scrollbar {
+      display: none;
+    }
+
+    #input-form {
+      background-color: rgba(70, 70, 70, 0.4);
+      border-radius: 15px;
+      padding: 20px;
+
+    }
+
+    #input-form input[type="text"],
+    #input-form input[type="file"],
+    #input-form input[type="email"],
+    #input-form textarea {
+      width: 95%;
+      padding: 10px;
+      color: #ffffff;
+      font-size: 15px;
+      margin-bottom: 10px;
+      border: none;
+      margin-left: 8px;
+      border-radius: 5px;
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+
+    #input-form textarea {
+      height: 100px;
+      /* Adjust the height for the textareas */
+    }
+
+    .centered-text {
+      text-align: center;
+      font-size: 15px;
+    }
+
+    /* Style the container for the text */
+    #text-container {
+      margin-top: -10px;
+      margin-bottom: 10px;
+    }
+
+    #myModal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    .add-education {
+      background-color: rgba(0, 0, 0, 0.6);
+      color: white;
+      border-radius: 8px;
+      width: 150px;
+      height: 30px;
+      margin-left: 550px;
+      margin-bottom: 10px;
+    }
+
+    .add-template {
+      background-color: rgba(0, 0, 0, 0.6);
+      color: white;
+      border-radius: 8px;
+      width: 150px;
+      height: 30px;
+    }
+
+    #myModal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    /* Style for the modal content */
+    #modal-content {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 20px;
+      text-align: center;
+      border-radius: 15px;
+    }
+
+    /* Style for the close button */
+    .close-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    /* Style for buttons inside the modal */
+    .modal-button {
+      height: 400px;
+      width: 300px;
+      border-radius: 15px;
+      margin: 10px;
+      display: inline-block;
+    }
+  </style>
+</head>
+
+<body>
+  <video id="background-video" autoplay muted loop>
+    <source src="static/assets/predict.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <div id="content-container">
+    <div>
+      <img class='image' src="static/assets/gen.png" alt="Image">
+    </div>
+  </div>
+  <div id="text-container" class="centered-text">
+    <p style="font-size: 18px;">
+      Fill the details below and generate your resume with CVGen.AI
+    </p>
+  </div>
+
+  <form action="/generatepdf" method="POST" enctype="multipart/form-data" id="resumeForm" onsubmit="return clearForm()">
+    <div id="chat-section">
+      <div id="input-form">
+        <!-- Other input fields -->
+        <input type="text" id="name" name="Name" placeholder="Name" required>
+        <p style="font-size: 18px;margin-left: 13px;">
+          Upload your photo
+        </p>
+        <input type="file" id="photo" name="photo" accept="image/*">
+        <input type="email" id="Email" name="Email" placeholder="Email" required>
+        <input type="text" id="LinkedIn" name="LinkedIn" placeholder="LinkedIn">
+
+        <!-- Education Section -->
+        <div id="education-container">
+          <p style="font-size: 18px;margin-left: 13px;">
+            Educational Details
+          </p>
+          <div class="education-detail">
+            <input type="text" name="education[0][degree]" placeholder="Course" required>
+            <input type="text" name="education[0][university]" placeholder="University/College Name" required>
+            <input type="text" name="education[0][cgpa]" placeholder="CGPA/GPA" required>
+          </div>
+        </div>
+        <button type="button" class="add-education" onclick="addEducation()">Add More Education</button>
+        <textarea id="Skills" name="Skills" placeholder="Skills (Max 200 Characters) recommended" required></textarea>
+        <textarea id="projects" name="projects" placeholder="Projects (Max 300 Characters) recommended" required></textarea>
+        <input type="text" id="Experience" name="Experience" placeholder="Experience in years" >
+        <textarea id="Internship" name="Internship" placeholder="Experience (Max 300 Characters) recommended"></textarea>
+        <textarea id="Achievements" name="Achievements" placeholder="Achievements (Max 200 Characters) recommended"
+          required></textarea>
+        <p style="font-size: 18px;margin-left: 13px;">
+          Description
+        </p>
+        <textarea type="text" id="description" name="Description" placeholder="Description (Max 50 Characters) recommended" required></textarea>
+        <label for="template" style="font-size: 18px;margin-left: 13px;">Select Resume Template:  
+        <select name="template" id="template" class="add-template">
+          <option value="template1.html" selected>Default</option>
+          <option value="template1.html">Fresher</option>
+          <option value="template2.html">Experienced</option>
+          <!-- Add more templates as needed -->
+        </select>
+        </label>
+      </div>
+
+    </div>
+    <div id="submit-btn-container">
+      <button id="submit-btn" type="submit">Generate</button>
+    </div>
+  </form>
+
+  <script>
+    let educationCount = 1;
+    function addEducation() {
+      const container = document.getElementById('education-container');
+      const newEducation = document.createElement('div');
+      newEducation.classList.add('education-detail');
+      newEducation.innerHTML = `
+        <input type="text" name="education[${educationCount}][degree]" placeholder="Degree" required>
+        <input type="text" name="education[${educationCount}][university]" placeholder="University" required>
+        <input type="text" name="education[${educationCount}][cgpa]" placeholder="CGPA" required>
+      `;
+      container.appendChild(newEducation);
+      educationCount++;
+    }
+    function clearForm() {
+      setTimeout(() => {
+        document.getElementById('resumeForm').reset();
+      }, 1000); // Adjust the timeout as needed
+      return true; // Allow form submission to proceed
+    }
+  </script>
+</body>
+
+</html>
